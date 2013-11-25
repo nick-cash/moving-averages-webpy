@@ -16,6 +16,14 @@ The HTTP response should contain current values for simple, cumulative, weighted
 
 There is no need to maintain data in a persistent data store; keeping values in-memory is fine. Put the project in a repo with a brief README.
 
+---------
+- Setup -
+---------
+
+- Install Python 2.7.3
+- Install web.py
+ -> sudo pip install web.py
+
 -----------
 - License -
 -----------
