@@ -30,6 +30,9 @@ def update_averages(num):
     sma_list = averages['numbers'][len_nums-period:]
     averages['simple'] = sum(map(lambda x: x['number'], sma_list))/len(sma_list)
 
+    # Cumulative Moving Average
+    averages['cumulative'] = ((averages['cumulative']*(len_nums-1))+num)/len_nums
+
 # Page handlers
 class data:
     def POST(self, num):
