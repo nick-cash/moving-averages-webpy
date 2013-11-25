@@ -13,10 +13,10 @@ averages = {
     'numbers': [],
     # Configure this to be the period for average calculations
     'period': timedelta(seconds=10),
-    'simple': 0.0,
-    'cumulative': 0.0,
-    'weighted': 0.0,
-    'exponential': 0.0,
+    'simple': [],
+    'cumulative': [],
+    'weighted': [],
+    'exponential': [],
 }
 
 def update_averages(num):
@@ -28,10 +28,19 @@ def update_averages(num):
 
     # Simple Moving Average
     sma_list = averages['numbers'][len_nums-period:]
-    averages['simple'] = sum(map(lambda x: x['number'], sma_list))/len(sma_list)
+    averages['simple'].append(sum(map(lambda x: x['number'], sma_list))/len(sma_list))
 
     # Cumulative Moving Average
-    averages['cumulative'] = ((averages['cumulative']*(len_nums-1))+num)/len_nums
+    if len_nums > 1:
+        averages['cumulative'].append(((averages['cumulative'][-1]*(len_nums-1))+num)/len_nums)
+    else:
+        averages['cumulative'].append(num)
+
+    # Weighted Moving Average
+    averages['weighted'].append(0.0)
+
+    # Exponential Moving Average
+    averages['exponential'].append(0.0)
 
 # Page handlers
 class data:
@@ -59,7 +68,7 @@ class generate_data:
     def GET(self, number_of_datapoints):
         n = int(number_of_datapoints)
         for i in range(0, (n if n <= 50 else 50)):
-            update_averages(random.uniform(7.0, 10.0))
+            update_averages(random.uniform(1.0, 20.0))
         return web.seeother("/moving-averages")
 
 if __name__ == "__main__":

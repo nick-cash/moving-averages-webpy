@@ -2,18 +2,19 @@ $def with (averages)
 
 $if averages:
     <h1>Moving Averages</h1>
-    <table>
+    <table border="1">
         <tr>
             <th>Simple</th>
             <th>Cumulative</th>
             <th>Weighted</th>
             <th>Exponential</th>
         </tr>
+        $for i in reversed(range(0,len(averages['simple']))):
         <tr>
-            <td>$averages['simple']</td>
-            <td>$averages['cumulative']</td>
-            <td>$averages['weighted']</td>
-            <td>$averages['exponential']</td>
+            <td>$averages['simple'][i]</td>
+            <td>$averages['cumulative'][i]</td>
+            <td>$averages['weighted'][i]</td>
+            <td>$averages['exponential'][i]</td>
         </tr>
     </table>
     <table>
