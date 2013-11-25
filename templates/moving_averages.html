@@ -1,6 +1,28 @@
-$def with (text)
+$def with (averages)
 
-$if text:
-    $text
+$if averages:
+    <h1>Moving Averages</h1>
+    <table>
+        <tr>
+            <th>Simple</th>
+            <th>Cumulative</th>
+            <th>Weighted</th>
+            <th>Exponential</th>
+        </tr>
+        <tr>
+            <td>$averages['simple']</td>
+            <td>$averages['cumulative']</td>
+            <td>$averages['weighted']</td>
+            <td>$averages['exponential']</td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>Numbers</th>
+        </tr>
+        $for number in averages['numbers']:
+        <tr>
+            <td>$number
+        </tr>
 $else:
-    No text.
+    No data.

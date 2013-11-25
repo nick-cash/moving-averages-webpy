@@ -20,7 +20,7 @@ There is no need to maintain data in a persistent data store; keeping values in-
 - Setup -
 ---------
 
-- Install Python 2.7.3
+- Install Python 2.7
 - Install web.py
  -> sudo pip install web.py
 
