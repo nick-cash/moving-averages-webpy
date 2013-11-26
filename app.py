@@ -11,8 +11,8 @@ urls = (
 
 averages = {
     'numbers': [],
-    # Configure this to be the period for average calculations
-    'period': timedelta(seconds=10),
+    # Configure this to be the period for average calculations.
+    'period': 10,
     'simple': [],
     'cumulative': [],
     'weighted': [],
@@ -20,15 +20,14 @@ averages = {
 }
 
 def update_averages(num):
-    period = averages['period'].seconds
+    period = averages['period']
 
-    time_now = datetime.now()
-    averages['numbers'].append({'number': num, 'time': time_now})
+    averages['numbers'].append(num)
     len_nums = len(averages['numbers'])
+    period_list = averages['numbers'][len_nums-period:]
 
     # Simple Moving Average
-    sma_list = averages['numbers'][len_nums-period:]
-    averages['simple'].append(sum(map(lambda x: x['number'], sma_list))/len(sma_list))
+    averages['simple'].append(sum(period_list)/len(period_list))
 
     # Cumulative Moving Average
     if len_nums > 1:
@@ -37,10 +36,15 @@ def update_averages(num):
         averages['cumulative'].append(num)
 
     # Weighted Moving Average
-    averages['weighted'].append(0.0)
+    averages['weighted'].append(sum([(i+1)*num for i,num in enumerate(period_list)])/((period*(period+1))/2))
 
     # Exponential Moving Average
-    averages['exponential'].append(0.0)
+    if len_nums > 1:
+        # Must be between 0 and 1. Higher values discount old data faster.
+        smoothing = 2.0/(period+1.0)
+        averages['exponential'].append(averages['exponential'][-1]+smoothing*(num-averages['exponential'][-1]))
+    else:
+        averages['exponential'].append(num)
 
 # Page handlers
 class data:
@@ -67,7 +71,7 @@ class display_json:
 class generate_data:
     def GET(self, number_of_datapoints):
         n = int(number_of_datapoints)
-        for i in range(0, (n if n <= 50 else 50)):
+        for i in xrange(0, (n if n <= 50 else 50)):
             update_averages(random.uniform(1.0, 20.0))
         return web.seeother("/moving-averages")
 
