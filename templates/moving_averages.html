@@ -11,32 +11,5 @@ $def with (averages)
 <script language="javascript" type="text/javascript" src="static/app.js"></script>
 <link rel="stylesheet" type="text/css" href="static/jquery.jqplot.min.css" />
 
-$if averages:
-    <div id="chartdiv" style="height:500px;width:800px;"></div>
-    <p>Click and drag to zoom. Double click to reset.</p>
-    <br/>
-    <h3>Moving Average Values</h3>
-    <table border="1">
-        <tr>
-            <th>Simple</th>
-            <th>Cumulative</th>
-            <th>Weighted</th>
-            <th>Exponential</th>
-        </tr>
-        $for i in reversed(range(0,len(averages['simple']))):
-        <tr>
-            <td>$averages['simple'][i]</td>
-            <td>$averages['cumulative'][i]</td>
-            <td>$averages['weighted'][i]</td>
-            <td>$averages['exponential'][i]</td>
-        </tr>
-    </table>
-    <h3>Last 10 Numbers</h3>
-    <table border="1">
-        <tr>
-        $for i in xrange(1,min(11,len(averages['numbers']))):
-            <td>$averages['numbers'][-i]
-        </tr>
-    </table>
-$else:
-    No data.
+<div id="chartdiv" style="height:500px;width:800px;"></div>
+<p>Click and drag to zoom. Double click to reset.</p>

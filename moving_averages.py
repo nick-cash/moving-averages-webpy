@@ -25,7 +25,6 @@ def weighted_moving_average(series, period):
     period_list = series[len(series)-period:]
     return sum([(i+1)*num for i,num in enumerate(period_list)])/((period*(period+1))/2)
 
-
 # Exponential Moving Average
 #   Note: This function works over successive values and assumes series[-1] is
 #         our newest number to average.

@@ -18,7 +18,8 @@ $(document).ready(function(){
 
     var jsonurl = '/moving-averages/json'
 
-    $.jqplot('chartdiv',  jsonurl, {
+    $.jqplot.config.enablePlugins = true;
+    var chart = $.jqplot('chartdiv',  jsonurl, {
         title: 'Moving Averages',
         animate: true,
         dataRenderer: ajaxDataRenderer,
@@ -35,7 +36,10 @@ $(document).ready(function(){
             {label:'Exponential'}
         ],
         axes: {
-            xaxis: {label: 'Time'},
+            xaxis: {
+                label: 'Time Periods',
+                min: 0
+            },
             yaxis: {
                 label: 'Values',
                 tickOptions:{
@@ -53,4 +57,19 @@ $(document).ready(function(){
             sizeAdjust: 7.5
         }
     });
+
+    function update_chart(){
+        $.ajax({
+            url: jsonurl,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                for (i in data) {
+                    chart.series[i].data = data[i];
+                }
+                chart.resetAxesScale();
+                chart.replot();
+        }});
+    };
+    setInterval(update_chart, 60000);
 });

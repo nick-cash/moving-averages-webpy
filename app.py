@@ -6,6 +6,7 @@ render = web.template.render('templates/')
 urls = (
     '/data/(.*)', 'data',
     '/moving\-averages', 'display_html',
+    '/moving\-averages/', 'redirect',
     '/moving\-averages/json', 'display_json',
     '/generate-data/(\d+)', 'generate_data',
 )
@@ -64,10 +65,14 @@ class display_html:
     def GET(self):
         return render.moving_averages(averages)
 
+# Redirect on slash, we are going slashless
+class redirect:
+    def GET(self):
+        raise web.seeother("/moving-averages")
+
 class display_json:
     def GET(self):
         web.header('Content-Type', 'application/json')
-
         def format_jqplot(key):
             lst = []
             for i,num in enumerate(averages[key]):
