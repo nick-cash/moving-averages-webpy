@@ -21,6 +21,9 @@ There is no need to maintain data in a persistent data store; keeping values in-
 1. Setup
     - Install Python 2.7
     - Install web.py
+        -> sudo apt-get install python-setuptools
+        -> sudo easy_install web.py
+                  or
         -> sudo pip install web.py
 
 2. Configure
