@@ -1,5 +1,6 @@
-import web, json, random, average_calculations
+import web, json, random
 from datetime import *
+from moving_averages import *
 
 render = web.template.render('templates/')
 urls = (
@@ -20,29 +21,29 @@ averages = {
 }
 
 def update_averages(num):
-    period = averages['period']
-
     averages['numbers'].append(num)
+
+    period = averages['period']
     len_nums = len(averages['numbers'])
-    period_list = averages['numbers'][len_nums-period:]
 
     # Simple Moving Average
-    averages['simple'].append(sum(period_list)/len(period_list))
+    averages['simple'].append(simple_moving_average(averages['numbers'], period))
 
     # Cumulative Moving Average
     if len_nums > 1:
-        averages['cumulative'].append(((averages['cumulative'][-1]*(len_nums-1))+num)/len_nums)
+        averages['cumulative'].append(cumulative_moving_average(averages['numbers'],
+                                                                averages['cumulative'][-1]))
     else:
         averages['cumulative'].append(num)
 
     # Weighted Moving Average
-    averages['weighted'].append(sum([(i+1)*num for i,num in enumerate(period_list)])/((period*(period+1))/2))
+    averages['weighted'].append(weighted_moving_average(averages['numbers'], period))
 
     # Exponential Moving Average
     if len_nums > 1:
-        # Must be between 0 and 1. Higher values discount old data faster.
-        smoothing = 2.0/(period+1.0)
-        averages['exponential'].append(averages['exponential'][-1]+smoothing*(num-averages['exponential'][-1]))
+        averages['exponential'].append(exponential_moving_average(averages['numbers'],
+                                                                  period,
+                                                                  averages['exponential'][-1]))
     else:
         averages['exponential'].append(num)
 

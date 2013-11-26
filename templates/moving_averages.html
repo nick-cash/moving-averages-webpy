@@ -17,13 +17,13 @@ $if averages:
             <td>$averages['exponential'][i]</td>
         </tr>
     </table>
-    <table>
+    <br/>
+    <h3>Last 10 Numbers</h3>
+    <table border="1">
         <tr>
-            <th>Numbers</th>
+        $for i in xrange(1,min(11,len(averages['numbers']))):
+            <td>$averages['numbers'][-i]
         </tr>
-        $for number in averages['numbers']:
-        <tr>
-            <td>$number
-        </tr>
+    </table>
 $else:
     No data.
