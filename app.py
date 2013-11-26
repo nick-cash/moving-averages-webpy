@@ -10,10 +10,11 @@ urls = (
     '/generate-data/(\d+)', 'generate_data',
 )
 
+# Configure this to be the period for average calculations.
+PERIOD = 10
+
 averages = {
     'numbers': [],
-    # Configure this to be the period for average calculations.
-    'period': 10,
     'simple': [],
     'cumulative': [],
     'weighted': [],
@@ -23,11 +24,10 @@ averages = {
 def update_averages(num):
     averages['numbers'].append(num)
 
-    period = averages['period']
     len_nums = len(averages['numbers'])
 
     # Simple Moving Average
-    averages['simple'].append(simple_moving_average(averages['numbers'], period))
+    averages['simple'].append(simple_moving_average(averages['numbers'], PERIOD))
 
     # Cumulative Moving Average
     if len_nums > 1:
@@ -37,12 +37,12 @@ def update_averages(num):
         averages['cumulative'].append(num)
 
     # Weighted Moving Average
-    averages['weighted'].append(weighted_moving_average(averages['numbers'], period))
+    averages['weighted'].append(weighted_moving_average(averages['numbers'], PERIOD))
 
     # Exponential Moving Average
     if len_nums > 1:
         averages['exponential'].append(exponential_moving_average(averages['numbers'],
-                                                                  period,
+                                                                  PERIOD,
                                                                   averages['exponential'][-1]))
     else:
         averages['exponential'].append(num)
@@ -67,7 +67,19 @@ class display_html:
 class display_json:
     def GET(self):
         web.header('Content-Type', 'application/json')
-        return json.dumps(averages)
+
+        def format_jqplot(key):
+            lst = []
+            for i,num in enumerate(averages[key]):
+                lst.append([i,num])
+            return lst
+        formatted = []
+        formatted.append(format_jqplot('numbers'))
+        formatted.append(format_jqplot('simple'))
+        formatted.append(format_jqplot('cumulative'))
+        formatted.append(format_jqplot('weighted'))
+        formatted.append(format_jqplot('exponential'))
+        return json.dumps(formatted)
 
 class generate_data:
     def GET(self, number_of_datapoints):
