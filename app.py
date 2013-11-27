@@ -1,4 +1,4 @@
-import web, json, random
+import web, json, random, os
 from datetime import *
 from moving_averages import *
 
@@ -15,13 +15,16 @@ urls = (
 # Configure this to be the period for average calculations.
 PERIOD = 10
 
-averages = {
-    'numbers': [],
-    'simple': [],
-    'cumulative': [],
-    'weighted': [],
-    'exponential': [],
-}
+def init_averages():
+    global averages
+    averages = {
+        'numbers': [],
+        'simple': [],
+        'cumulative': [],
+        'weighted': [],
+        'exponential': [],
+    }
+init_averages()
 
 def update_averages(num):
     averages['numbers'].append(num)
@@ -68,7 +71,7 @@ class data:
 
 class display_html:
     def GET(self):
-        return render.moving_averages(averages)
+        return render.moving_averages()
 
 # Redirect on slash, we are going slashless
 class redirect:
