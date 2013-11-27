@@ -70,6 +70,15 @@ There is no need to maintain data in a persistent data store; keeping values in-
             - Weighted Moving Averages
             - Exponential Moving Averages
 
+6. Unit Tests
+  * Install Nose
+    -> sudo easy_install nose
+                or
+       sudo pip install nose
+
+  * Run
+    -> nosetests
+
 -----------
 - License -
 -----------
