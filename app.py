@@ -4,11 +4,12 @@ from moving_averages import *
 
 render = web.template.render('templates/')
 urls = (
+    '/', 'index',
     '/data/(.*)', 'data',
     '/moving\-averages', 'display_html',
     '/moving\-averages/', 'redirect',
     '/moving\-averages/json', 'display_json',
-    '/generate-data/(\d+)', 'generate_data',
+    '/generate\-data/(\d+)', 'generate_data',
 )
 
 # Configure this to be the period for average calculations.
@@ -49,6 +50,10 @@ def update_averages(num):
         averages['exponential'].append(num)
 
 # Page handlers
+class index:
+    def GET(self):
+        return render.index()
+
 class data:
     def POST(self, num):
         try:

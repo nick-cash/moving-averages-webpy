@@ -43,6 +43,11 @@ There is no need to maintain data in a persistent data store; keeping values in-
         * Redirects to /moving-averages
 
 5. View data
+    -> /
+        * The index page has a few links to quickly do things. It has a small
+          form to quickly and easily submit numbers to the service. You can also
+          generate 10/25/50 numbers, or directly access the graph or JSON data.
+
     -> /moving-averages
         * Displays a graph with all of our data and the following moving averages:
             - Simple Moving Averages
