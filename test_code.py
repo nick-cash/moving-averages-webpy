@@ -8,7 +8,6 @@ class TestCode(TestCase):
         self.app = web.application(urls, globals())
         init_averages()
 
-    # Note: We don't test the form here because
     def test_index(self):
         r = self.app.request('/')
         assert_equal(r.status, "200 OK")
